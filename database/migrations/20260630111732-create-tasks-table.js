@@ -17,7 +17,7 @@ module.exports = {
     //   auto
     // })
 
-    await queryInterface.createTable('Task',{
+    await queryInterface.createTable('Tasks',{
       id:{
         type:Sequelize.INTEGER,
         primaryKey:true,
@@ -31,8 +31,8 @@ module.exports = {
       },
 
       description:{
-        type:Sequelize.STRING,
-        allowNull:true
+        type:Sequelize.TEXT,
+        allowNull:false
       },
       
       dueDate:{
@@ -42,9 +42,9 @@ module.exports = {
     },
 
       status:{
-      type:Sequelize.BOOLEAN,
-      allowNull:true,
-      defaultValue:false
+      type:Sequelize.ENUM('pending','in-progress','completed'),
+      allowNull:false,
+      defaultValue:'pending'
     },
 
     updatedAt:{
@@ -70,6 +70,6 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
 
-    await queryInterface.dropTable('Task')
+    await queryInterface.dropTable('Tasks')
   }
 };
