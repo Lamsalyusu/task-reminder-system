@@ -1,0 +1,372 @@
+openapi: 3.0.4
+
+info:
+  title: Task Reminder System API
+  version: 1.0.0
+  description: |
+    REST API for managing tasks and reminders.
+
+    Features:
+      - Create, Read, Update and Delete Tasks
+      - Create, Read, Update and Delete Reminders
+      - PostgreSQL database using Sequelize ORM
+      - One Task can have multiple Reminders
+
+servers:
+  - url: http://localhost:3000
+    description: Local Development Server
+
+tags:
+  - name: Tasks
+    description: Task Management APIs
+
+  - name: Reminders
+    description: Reminder Management APIs
+
+paths:
+  /api/tasks:
+    get:
+      tags:
+        - Tasks
+      summary: Get all tasks
+      description: Returns all available tasks.
+      responses:
+        "200":
+          description: List of tasks.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+
+    post:
+      tags:
+        - Tasks
+      summary: Create a new task
+      description: Creates a new task.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTask"
+      responses:
+        "201":
+          description: Task created successfully.
+        "400":
+          description: Invalid request body.
+
+  /api/tasks/{id}:
+    get:
+      tags:
+        - Tasks
+      summary: Get task by ID
+      parameters:
+        - $ref: "#/components/parameters/TaskId"
+      responses:
+        "200":
+          description: Task found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "404":
+          description: Task not found.
+
+    put:
+      tags:
+        - Tasks
+      summary: Update task
+      parameters:
+        - $ref: "#/components/parameters/TaskId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTask"
+      responses:
+        "200":
+          description: Task updated successfully.
+        "404":
+          description: Task not found.
+
+    delete:
+      tags:
+        - Tasks
+      summary: Delete task
+      parameters:
+        - $ref: "#/components/parameters/TaskId"
+      responses:
+        "200":
+          description: Task deleted successfully.
+        "404":
+          description: Task not found.
+
+  /api/reminders:
+    get:
+      tags:
+        - Reminders
+      summary: Get all reminders
+      responses:
+        "200":
+          description: List of reminders.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Reminder"
+
+    post:
+      tags:
+        - Reminders
+      summary: Create reminder
+      description: Creates a reminder associated with an existing task.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateReminder"
+      responses:
+        "201":
+          description: Reminder created successfully.
+        "400":
+          description: Invalid request.
+        "404":
+          description: Task not found.
+
+  /api/reminders/{id}:
+    get:
+      tags:
+        - Reminders
+      summary: Get reminder by ID
+      parameters:
+        - $ref: "#/components/parameters/ReminderId"
+      responses:
+        "200":
+          description: Reminder found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reminder"
+        "404":
+          description: Reminder not found.
+
+    put:
+      tags:
+        - Reminders
+      summary: Update reminder
+      parameters:
+        - $ref: "#/components/parameters/ReminderId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateReminder"
+      responses:
+        "200":
+          description: Reminder updated successfully.
+        "404":
+          description: Reminder not found.
+
+    delete:
+      tags:
+        - Reminders
+      summary: Delete reminder
+      parameters:
+        - $ref: "#/components/parameters/ReminderId"
+      responses:
+        "200":
+          description: Reminder deleted successfully.
+        "404":
+          description: Reminder not found.
+
+
+# yo componets /parameters /TaskId --> yesko kaam chaio task id ma chiyeko parameters pathaune ho from $ref yesko path bata params haru uta janchha
+# jastai aba /componenets/schemas/Task chha bhane chai (in case of GET response) yesko kaam chai GET response ma Task ko schema pathaune ho from $ref yesko path bata schema haru uta janchha
+# yo tala ko bhaneko chai jun hamle $ref ma use gareko chham ni #components/schemas/.... yestai gari kana yo chai sabau path haru ho
+components:
+  parameters:
+    TaskId:
+      name: id
+      in: path
+      required: true
+      description: Task ID
+      schema:
+        type: integer
+        example: 1
+
+    ReminderId:
+      name: id
+      in: path
+      required: true
+      description: Reminder ID
+      schema:
+        type: integer
+        example: 1
+
+  schemas:
+    Task:
+      type: object
+
+      properties:
+        id:
+          type: integer
+          example: 1
+
+        title:
+          type: string
+          example: Complete Internship Assignment
+
+        description:
+          type: string
+          example: Finish Task Reminder System using Node.js and TypeScript.
+
+        dueDate:
+          type: string
+          format: date-time
+          example: 2026-07-15T10:00:00Z
+
+        status:
+          type: string
+          enum:
+            - pending
+            - in-progress
+            - completed
+          example: pending
+
+        createdAt:
+          type: string
+          format: date-time
+
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateTask:
+      type: object
+
+      required:
+        - title
+        - description
+        - dueDate
+
+      properties:
+        title:
+          type: string
+          example: Complete Internship Assignment
+
+        description:
+          type: string
+          example: Finish Swagger Documentation.
+
+        dueDate:
+          type: string
+          format: date-time
+          example: 2026-07-15T10:00:00Z
+
+        status:
+          type: string
+          enum:
+            - pending
+            - in-progress
+            - completed
+          example: pending
+
+    UpdateTask:
+      type: object
+
+      properties:
+        title:
+          type: string
+
+        description:
+          type: string
+
+        dueDate:
+          type: string
+          format: date-time
+
+        status:
+          type: string
+          enum:
+            - pending
+            - in-progress
+            - completed
+
+    Reminder:
+      type: object
+
+      properties:
+        id:
+          type: integer
+          example: 1
+
+        taskId:
+          type: integer
+          example: 1
+
+        reminderTime:
+          type: string
+          format: date-time
+          example: 2026-07-14T09:00:00Z
+
+        status:
+          type: string
+          enum:
+            - pending
+            - sent
+          example: pending
+
+        createdAt:
+          type: string
+          format: date-time
+
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateReminder:
+      type: object
+
+      required:
+        - taskId
+        - reminderTime
+
+      properties:
+        taskId:
+          type: integer
+          example: 1
+
+        reminderTime:
+          type: string
+          format: date-time
+          example: 2026-07-14T09:00:00Z
+
+        status:
+          type: string
+          enum:
+            - pending
+            - sent
+          example: pending
+
+    UpdateReminder:
+      type: object
+
+      properties:
+        taskId:
+          type: integer
+
+        reminderTime:
+          type: string
+          format: date-time
+
+        status:
+          type: string
+          enum:
+            - pending
+            - sent
