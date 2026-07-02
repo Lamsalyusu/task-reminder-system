@@ -29,9 +29,9 @@ async getAllTasks(req:Request,res:Response){
     }
 }
 
-async getTaskById(req:Request,res:Response){
+async getTaskById(req:Request<{id:string}>,res:Response){
     try{
-        const id = parseInt(req.params.id as string);
+        const id = parseInt(req.params.id,10);
         const task = await taskService.getTaskById(id);
         if(!task){
             return res.status(404).json({error:`Task with id ${id} not found`});
@@ -43,9 +43,9 @@ async getTaskById(req:Request,res:Response){
     }
 }
 
-async updateTask(req:Request,res:Response){
+async updateTask(req:Request<{id:string}>,res:Response){
     try{
-        const id = parseInt(req.params.id as string)
+        const id = parseInt(req.params.id,10);
         const updatedtask = await taskService.updateTask(id,req.body);
         if(!updatedtask){
             return res.status(404).json({error:"task not found to update"});
@@ -56,13 +56,13 @@ async updateTask(req:Request,res:Response){
     }
 }
 
-async deleteTask(req:Request,res:Response){
+async deleteTask(req:Request<{id:string}>,res:Response){
     try{
-        const id = parseInt(req.params.id as string);
+        const id = parseInt(req.params.id,10);
         const deletedtask = await taskService.deleteTask(id);
-        if(!deletedtask){
-            return res.status(404).json({error:"Task not found to delete"});
-        }
+        // if(!deletedtask){
+        //     return res.status(404).json({error:"Task not found to delete"});
+        // }
         res.status(200).json({deletetion:deletedtask});
     }catch(error:any){
         res.status(500).json({error:error.message});

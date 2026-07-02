@@ -22,7 +22,7 @@ module.exports = {
         type:Sequelize.INTEGER,
         allowNull:false,
         references:{
-          model:'Tasks',
+          model:'Task',
           key:'id'
         },
         onUpdate:'CASCADE',
@@ -44,7 +44,15 @@ module.exports = {
         type:Sequelize.DATE,
         allowNull:false,
         defaultValue:Sequelize.NOW
-      }
+      },
+
+      status:{
+      type:Sequelize.ENUM(
+        "pending",
+        "sent"
+      ),
+      defaultValue:"pending"
+}
     })
   },
 
