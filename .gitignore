@@ -1,21 +1,17 @@
-# ==============================================================================
-# 📦 Dependencies
-# ==============================================================================
+
 node_modules/
 jspm_packages/
 web_modules/
 
-# ==============================================================================
-# 🚀 Build & Compilation Output
-# ==============================================================================
+
 dist/
 build/
 out/
 *.tsbuildinfo
 
-# ==============================================================================
-# 🔑 Secrets, Environment Variables, & Runtime Files
-# ==============================================================================
+
+
+
 .env
 .env.local
 .env.development.local
@@ -29,18 +25,15 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# ==============================================================================
-# 💻 IDEs, Editors, & OS Artifacts
-# ==============================================================================
-# Visual Studio Code
+
+
 .vscode/
 !.vscode/extensions.json
 !.vscode/launch.json
 !.vscode/settings.json
 
-# JetBrains (WebStorm, IntelliJ)
 .idea/
 
-# OS generated files
+
 .DS_Store
 Thumbs.db
