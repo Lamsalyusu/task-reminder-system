@@ -1,5 +1,12 @@
 import Task from "../models/taskModel";
 
+export type TaskData = {
+    title: string;
+    description: string;
+    dueDate: Date;
+    status?: 'pending' | 'in-progress' | 'completed';
+    };
+
 class TaskService {
     // async createTask(taskData: { title: string; description: string; dueDate: Date; status?: "pending" | "in-progress" | "completed"; }) {
     //     try {
@@ -9,13 +16,28 @@ class TaskService {
     //         throw new Error(`Error creating task: ${error}`);
     //     }
 
-    async createTask(taskData:{
-        title:string;
-        description:string;
-        dueDate:Date;
-        status?:'pending'|'in-progress'|'completed';
-    })
-    {
+
+    // type tasks ={
+    //     title:string;
+    //     description:string;
+    //     dueDate:Date;
+    //     status?:'pending'|'in-progress'|'completed';
+    // }
+    // const taskData:tasks = {
+    //     title: "Sample Task",
+    //     description: "This is a sample task",
+    //     dueDate: new Date(),
+    //     status: "pending"
+    // }
+
+    
+
+    
+    async createTask (taskData: TaskData) 
+        // description:string;
+        // dueDate:Date;
+        // status?:'pending'|'in-progress'|'completed';
+        {
         try{
             const task = await Task.create(taskData);
             return task;
@@ -54,7 +76,7 @@ class TaskService {
         }
     }
 
-    async updateTask(id:number, taskData:{ title?:string; description?:string; dueDate?:Date; status?:'pending'|'in-progress'|'completed'; }){
+    async updateTask(id:number, taskData:TaskData){
         try{
             const task = await Task.findByPk(id);
             if(!task){
