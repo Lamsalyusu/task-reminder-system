@@ -2,16 +2,17 @@ import {Request , Response} from 'express';
 import reminderService from '../services/reminderService';
 class ReminderController{
     async createReminder(req:Request,res:Response){
-        try{
+        try
+        {
             const reminderData = req.body;
-        const reminder = await reminderService.createReminder(reminderData);
+            const reminder = await reminderService.createReminder(reminderData);
         if(!reminder){
             return res.status(400).json({error:"reminder not created"});
         }
-        res.status(201).json({createdreminder:reminder});
+        return res.status(201).json({createdreminder:reminder});
         }
         catch(error:any){
-            res.status(400).json({error:error.message});
+            return res.status(400).json({error:error.message});
         } 
     }
 
@@ -19,10 +20,10 @@ class ReminderController{
         try 
         {
             const reminder = await reminderService.getAllReminder();
-            res.status(200).json({reminders:reminder});
+            return res.status(200).json({reminders:reminder});
         }
         catch(error:any){
-            res.status(500).json({error:error.message});
+            return res.status(500).json({error:error.message});
         }
     }
 
@@ -33,10 +34,10 @@ class ReminderController{
             if(!reminder){
                 return res.status(404).json({error:"reminder not found"});
             }
-            res.status(200).json({reminder:reminder});
+            return res.status(200).json({reminder:reminder});
         }
         catch(error:any){
-            res.status(500).json({error:error.message});
+            return res.status(500).json({error:error.message});
         }
     }
 
@@ -47,9 +48,9 @@ class ReminderController{
             if(!updatedReminder){
                 return res.status(404).json({error:"reminder not found to update"});
             }
-            res.status(200).json({updated:updatedReminder});
+            return res.status(200).json({updated:updatedReminder});
         }catch(error:any){
-            res.status(500).json({error:error.message});
+            return res.status(500).json({error:error.message});
         }
     }
     async deleteReminder(req:Request<{id:string}>,res:Response){
@@ -59,9 +60,9 @@ class ReminderController{
             // if(!deletedReminder){
             //     return res.status(404).json({error:"reminder not found to delete"});
             // }
-            res.status(200).json({deleted:deletedReminder});
+            return res.status(200).json({deleted:deletedReminder});
         }catch(error:any){
-            res.status(500).json({error:error.message});
+            return res.status(500).json({error:error.message});
         }
 
     }

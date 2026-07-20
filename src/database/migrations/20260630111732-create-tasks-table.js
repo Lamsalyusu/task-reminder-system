@@ -40,7 +40,6 @@ module.exports = {
       allowNull:false
 
     },
-
       status:{
       type:Sequelize.ENUM('pending','in-progress','completed'),
       allowNull:false,

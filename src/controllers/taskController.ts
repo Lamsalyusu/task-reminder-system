@@ -12,9 +12,9 @@ async createTask(req:Request,res:Response){
         if(!task){
             return res.status(400).json({error:"Task not created"});
         }
-        res.status(201).json({createdtask: task});
+        return res.status(201).json({createdtask: task});
     } catch (error:any) {
-        res.status(500).json({ error:error.message });
+        return res.status(500).json({ error:error.message });
     }
 }
 async getAllTasks(req:Request,res:Response){
@@ -23,9 +23,9 @@ async getAllTasks(req:Request,res:Response){
         // if(!task){
         //     return res.status(404).json({error:"No tasks found"});
         // }
-        res.status(200).json({alltasks: task });
+        return res.status(200).json({alltasks: task });
     } catch (error:any) {
-        res.status(500).json({ error:error.message });
+        return res.status(500).json({ error:error.message });
     }
 }
 
@@ -36,10 +36,10 @@ async getTaskById(req:Request<{id:string}>,res:Response){
         if(!task){
             return res.status(404).json({error:`Task with id ${id} not found`});
         }
-        res.status(200).json({taskbyid:task});
+        return res.status(200).json({taskbyid:task});
     }
     catch(error:any){
-        res.status(500).json({error:error.message})
+        return res.status(500).json({error:error.message})
     }
 }
 
@@ -50,9 +50,9 @@ async updateTask(req:Request<{id:string}>,res:Response){
         if(!updatedtask){
             return res.status(404).json({error:"task not found to update"});
         }
-        res.status(200).json({updates:updatedtask});
+        return res.status(200).json({updates:updatedtask});
     }catch(error:any){
-        res.status(500).json({error:error.message});
+        return res.status(500).json({error:error.message});
     }
 }
 
@@ -63,12 +63,11 @@ async deleteTask(req:Request<{id:string}>,res:Response){
         // if(!deletedtask){
         //     return res.status(404).json({error:"Task not found to delete"});
         // }
-        res.status(200).json({deletetion:deletedtask});
+        return res.status(200).json({deletetion:deletedtask});
     }catch(error:any){
-        res.status(500).json({error:error.message});
+        return res.status(500).json({error:error.message});
     }
 }
 }
-
 const taskController = new TaskController();
 export default taskController;
